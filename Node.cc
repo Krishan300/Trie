@@ -11,34 +11,40 @@
 #include <stdio.h>
 #include "Node.h"
 #include "Link.h"
+#include <string>
 using namespace std;
 
 Node::Node(){
-  value=0;
-  numlinks=0; 
-  nextfew=new Link*[10];
-}  
-  
+   value=-1;
+   numlinks=0;
+   //cout<<"This is two"<<endl;
+   nextfew=new Link*[10];
+   
+}    
  
 
-  int Node:: getnumlinks()
+int Node:: getnumlinks()
   {
     int x=0;
     for(int i=0; i<10; i++)
       {
-       	if(nextfew[i]->member!=' ')
+       	if(nextfew[i]!=NULL)
 	  {
-	    x++; 
+	    x++;
+	    printf(" %d", i);
           } 
       }
     return x;
   }
 
- Node:: ~ Node()
+ Node:: ~Node()
  {
   for(int i=0; i<10; i++)
     {
+      if(nextfew[i]!=NULL)
+	{
       delete nextfew[i];
+        }
     }
   }
   
