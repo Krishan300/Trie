@@ -5,9 +5,9 @@
 
 #include "Trie.h"
 
-int main(int argc, char* argv[])
+int main()
 {
-  Trie t;
+  Trie t = Trie();
    t.put("LEHIGH", 1);
   // t.put("LEMON", 1);
   t.get("LEHIGH");
