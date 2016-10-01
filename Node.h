@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include "Link.h"
+#include <string>
 using namespace std;
 class Node {
 public:
