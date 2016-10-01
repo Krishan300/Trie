@@ -17,7 +17,9 @@ Link::Link(){
   next=new Node();
 }
 Link:: ~Link(){
+  if(next!=NULL){
   delete next;
+  }
 }
 
 void Link:: setMember(char y)
