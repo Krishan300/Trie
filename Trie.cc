@@ -1,3 +1,4 @@
+
 /*
   CSE 109
   Krishan Madan
@@ -8,14 +9,17 @@
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
+#include <string>
 #include "Node.h"
 #include "Link.h"
 #include "Trie.h"
 
 using namespace std;
-
+int z=0;
 Trie::Trie(){
   first=new Node();
+  
+  
  }
 
 
@@ -23,30 +27,63 @@ void Trie :: put(string key, int placed)
  {
   
    
+   
    for( int i=0; i<(int)key.length(); i++)
    {
+     bool valisfound=false;
+     
+    
        
-      for(int x=0; x<first->numlinks;x++)
+     for(int x=0; x<first->numlinks;x++)//inner loop-skips
        {
          
-	 if((*first).nextfew[x]->member==key[i])
+	  valisfound=false;
+
+	 if( first->nextfew[x]->member==key[i])
 	 {
+	   
 	   first=(*first).nextfew[x]->next;
+	   
+	   valisfound=true;
 	 }
 
        }
-       	 
-      if((*first).nextfew[first->numlinks]->member!=key[0])
-         {
+     // cout<<"Check for error"<<endl;
+      if(valisfound==false)
+	{
+          first->nextfew[first->numlinks]=new Link();
+	  // cout<<"Link made"<<endl;
+	  // cout << first->getnumlinks() << endl;
 	   
-	   (*first).nextfew[first->numlinks]->setMember(key[i]);
-	   Node currentNode;
+	   first->nextfew[first->numlinks]->setMember(key[i]);
+
+	   //	   cout<< first->nextfew[first->numlinks]->member <<endl;
+
+	   first->numlinks=first->numlinks+1;
+	   
+	   
+	   // cout<<first->nextfew[first->numlinks-1]->member<<endl;
+	   cout<<first->value<<endl;
+	   cout<<first->numlinks<<endl;
+	   Node *currentNode=new Node();
+
 	   if(i==(int)(key.length()-1))
 	     {
-	       currentNode.value=placed;
+	       currentNode->value=placed;
+	       // cout<<z<<endl;
 	     }
-	   (*first).nextfew[first->numlinks]->next=&currentNode;
-	   first=(*first).nextfew[first->numlinks]->next;
+	   else
+	     {
+	       currentNode->value=0;
+	     }
+	   first->nextfew[first->numlinks-1]->next=currentNode;
+	   first=(*first).nextfew[first->numlinks-1]->next;
+	   // cout<<first->nextfew[first->numlinks-1]->member<<endl;
+	   
+	   // cout<<first->numlinks<<endl;
+	   // cout<<first->value<<endl;
+	   // z+=2;
+	   // cout<<z<<endl;
 	 }
    }
  }
@@ -55,47 +92,38 @@ void Trie :: put(string key, int placed)
 
    int Trie:: get(string key)
    {
-     bool foundmatch=true;
-     int y=0;
-     int retvalue=0;
-     while(foundmatch==true)
-     {
+      int retvalue=0;
+      
      for(int i=0; i<(int)key.length(); i++)
      {
-      
-      
+       bool foundmatch=false;
+       cout<<key[i]<<endl;
        for(int x=0; x<first->numlinks; x++)
        {
-	  
+	 // cout<<x<<endl;
 	  if(first->nextfew[x]->member==key[i])
 	   {
-	      y=1;
-	      first=first->nextfew[x]->next;
-	      
+	     // cout<<first->nextfew[x]->member<<endl;
+	     foundmatch=true;
+	     //cout<<foundmatch<<endl;
+	    first=first->nextfew[x]->next;
+	    break;
 	    }
-	  }
-	    if(y==0)
-	      {
-		foundmatch=false;	     
-	      
-	      }  
-	}
-     }
-         
-                         
-     if(foundmatch==false)
-       {
-	 retvalue= -1;
        }
-     if(foundmatch==true)
-       {
-	 retvalue= 0;
-       }  
-     return retvalue;
+             if(foundmatch==false)
+	    {
+	      retvalue=-1;
+	      break;
+	    }
+   
+    
+     }
+     return retvalue; 
    }
 
 Trie:: ~Trie()
 {
-  
+  if(first!=NULL){  
   delete first;
+  }
 }
