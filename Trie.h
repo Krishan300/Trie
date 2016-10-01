@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
+#include <string>
 #include "Node.h"
 #include "Link.h"
 using namespace std;
