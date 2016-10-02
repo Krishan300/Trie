@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <string>
+#include <cstring>
 #include "Node.h"
 #include "Link.h"
 #include "Trie.h"
@@ -17,16 +18,17 @@
 using namespace std;
 int z=0;
 Trie::Trie(){
-  first=new Node();
-  
+   first=new Node();
+    
   
  }
 
 
 void Trie :: put(string key, int placed)
  {
-  
    
+   // storage=new Node*[key.length()+1];  
+   Node* currentNode=first;  
    
    for( int i=0; i<(int)key.length(); i++)
    {
@@ -34,15 +36,15 @@ void Trie :: put(string key, int placed)
      
     
        
-     for(int x=0; x<first->numlinks;x++)//inner loop-skips
+     for(int x=0; x<currentNode->numlinks;x++)//inner loop-skips
        {
          
 	  valisfound=false;
 
-	 if( first->nextfew[x]->member==key[i])
+	 if(currentNode->nextfew[x]->member==key[i])
 	 {
 	   
-	   first=(*first).nextfew[x]->next;
+	   currentNode=(*currentNode).nextfew[x]->next;
 	   
 	   valisfound=true;
 	 }
@@ -51,33 +53,44 @@ void Trie :: put(string key, int placed)
      // cout<<"Check for error"<<endl;
       if(valisfound==false)
 	{
-          first->nextfew[first->numlinks]=new Link();
+          currentNode->nextfew[currentNode->numlinks]=new Link();
 	  // cout<<"Link made"<<endl;
 	  // cout << first->getnumlinks() << endl;
 	   
-	   first->nextfew[first->numlinks]->setMember(key[i]);
+	   currentNode->nextfew[currentNode->numlinks]->setMember(key[i]);
 
 	   //	   cout<< first->nextfew[first->numlinks]->member <<endl;
 
-	   first->numlinks=first->numlinks+1;
+	  currentNode->numlinks=currentNode->numlinks+1;
 	   
 	   
 	   // cout<<first->nextfew[first->numlinks-1]->member<<endl;
-	   cout<<first->value<<endl;
-	   cout<<first->numlinks<<endl;
-	   Node *currentNode=new Node();
+	   
+	   Node *newn=new Node();
 
 	   if(i==(int)(key.length()-1))
 	     {
-	       currentNode->value=placed;
-	       // cout<<z<<endl;
+	       newn->value=placed;
+	       // storage[i+1]=new Node();
+		// storage[i+1]=currentNode;
+	       // out<<"This is last node"<<endl;
+	       //	cout<<storage[i+1]->value<<endl;
+	       //	cout<<storage[i+1]->numlinks<<endl;
 	     }
 	   else
 	     {
-	       currentNode->value=0;
+	       newn->value=0;
 	     }
-	   first->nextfew[first->numlinks-1]->next=currentNode;
-	   first=(*first).nextfew[first->numlinks-1]->next;
+	   // storage[i]=new Node();
+	   // storage[i]=first;
+	   // cout<<storage[i]->value<<endl;
+	   // cout<<storage[i]->numlinks<<endl;
+	   currentNode->nextfew[currentNode->numlinks-1]->next=newn;
+	   
+	   //cout<<first->numlinks<<endl;
+	   // cout<<currentNode->value<<endl;
+	   // cout<<currentNode->numlinks<<endl;
+	   currentNode=(*currentNode).nextfew[currentNode->numlinks-1]->next;
 	   // cout<<first->nextfew[first->numlinks-1]->member<<endl;
 	   
 	   // cout<<first->numlinks<<endl;
@@ -92,12 +105,14 @@ void Trie :: put(string key, int placed)
 
    int Trie:: get(string key)
    {
-      int retvalue=0;
-      
+      int retvalue;
+      // first=storage[0];
+     bool foundmatch;
      for(int i=0; i<(int)key.length(); i++)
      {
-       bool foundmatch=false;
-       cout<<key[i]<<endl;
+       foundmatch=false;
+       // cout<<key[i]<<endl;
+	// cout<<first->value<<endl;
        for(int x=0; x<first->numlinks; x++)
        {
 	 // cout<<x<<endl;
@@ -112,13 +127,17 @@ void Trie :: put(string key, int placed)
        }
              if(foundmatch==false)
 	    {
-	      retvalue=-1;
-	      break;
+	      retvalue= -1;
 	    }
    
-    
+	     // return retvalue;
      }
-     return retvalue; 
+     if(foundmatch==true)
+       {
+	 retvalue= 0;
+       }
+     cout<<retvalue<<endl;
+     return retvalue;
    }
 
 Trie:: ~Trie()
@@ -126,4 +145,5 @@ Trie:: ~Trie()
   if(first!=NULL){  
   delete first;
   }
+  
 }
