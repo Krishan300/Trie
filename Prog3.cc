@@ -11,6 +11,7 @@ int main()
    t.put("LEHIGH", 1);
   // t.put("LEMON", 1);
   t.get("LEHIGH");
+  t.get("LEMON");
   // t.get("LEMON");
 
 
