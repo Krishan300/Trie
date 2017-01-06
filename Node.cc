@@ -39,12 +39,14 @@ int Node:: getnumlinks()
 
  Node:: ~Node()
  {
-  for(int i=0; i<10; i++)
+   /*  for(int i=0; i<10; i++)
     {
       if(nextfew[i]!=NULL)
 	{
       delete nextfew[i];
         }
-    }
+	}*/
+
+   delete[] nextfew;
   }
   
